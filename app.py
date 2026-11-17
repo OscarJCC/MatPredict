@@ -4,6 +4,9 @@ import json
 import joblib
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
+import py3Dmol
+from pymatgen.core import Structure
 from matpredict_features import configurar_columnas, extraer_descriptores_cif, composicion_a_features
 
 st.set_page_config(page_title='MatPredict',page_icon='🧪',layout='wide')
@@ -29,6 +32,26 @@ def cargar_modelos(modalidad):
         if hasattr(modelo,'feature_names_in_') and list(modelo.feature_names_in_)!=list(columnas):
             raise ValueError('El orden de columnas no coincide con el modelo entrenado.')
     return modelos[0],modelos[1],columnas
+
+def visualizar_estructura_cif(ruta_cif):
+    """Visualiza la misma estructura CIF empleada para extraer descriptores."""
+    estructura = Structure.from_file(str(ruta_cif))
+    if not estructura.is_ordered:
+        raise ValueError("El CIF contiene sitios desordenados o con ocupaciones parciales.")
+    if len(estructura) > 1000:
+        st.info("Visualización omitida: más de 1000 sitios atómicos en la celda.")
+        return
+    st.subheader("Estructura cristalina en 3D")
+    st.caption("Gira con el ratón, desplaza y usa la rueda para ampliar. Los átomos se colorean por elemento.")
+    alto = 470
+    visor = py3Dmol.view(width=950, height=alto)
+    visor.addModel(estructura.to(fmt="cif"), "cif")
+    visor.setStyle({"sphere": {"scale": 0.32}, "stick": {"radius": 0.12}})
+    visor.addUnitCell()
+    visor.zoomTo()
+    visor.setBackgroundColor("white")
+    components.html(visor._make_html(), height=alto + 15, scrolling=False)
+    st.caption("Se representa la celda contenida en el CIF; los enlaces son ilustrativos, no un cálculo de enlaces químicos.")
 
 def score_positivo(modelo,X):
     clases=list(modelo.classes_)
@@ -80,6 +103,11 @@ if enviar:
                 ruta=Path(carpeta)/'entrada.cif';ruta.write_bytes(archivo.getvalue())
                 configurar_columnas(ROOT)
                 X,meta=extraer_descriptores_cif(ruta,formula=formula.strip() or None)
+                # La visualización es opcional: un problema gráfico no bloquea la predicción.
+                try:
+                    visualizar_estructura_cif(ruta)
+                except Exception as error_visual:
+                    st.warning(f"No se pudo visualizar el CIF: {error_visual}")
             formula_final=meta['formula_cif']
             st.write(f"**Fórmula del CIF:** {formula_final} · **Sitios:** {meta['sitios']} · **Volumen:** {meta['volumen_A3']:.4f} Å³")
             pm,pg=predecir('cif',X)
