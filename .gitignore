@@ -1,0 +1,7 @@
+# Datasets de entrenamiento
+data/*.csv
+data/processed_clasificacion/*.csv
+
+# Archivos temporales
+__pycache__/
+.ipynb_checkpoints/
