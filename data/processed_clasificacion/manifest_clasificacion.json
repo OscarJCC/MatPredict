@@ -1,0 +1,77 @@
+{
+  "dataset_fuente": "data\\MatPredict_Stable_Materials.csv",
+  "numero_registros_original": 32539,
+  "columnas_predictoras": [
+    "comp_num_elementos",
+    "comp_entropia_mezcla",
+    "comp_Z_media",
+    "comp_Z_min",
+    "comp_Z_max",
+    "comp_Z_desv",
+    "comp_Z_rango",
+    "comp_masa_atomica_media",
+    "comp_masa_atomica_min",
+    "comp_masa_atomica_max",
+    "comp_masa_atomica_desv",
+    "comp_masa_atomica_rango",
+    "comp_electronegatividad_media",
+    "comp_electronegatividad_min",
+    "comp_electronegatividad_max",
+    "comp_electronegatividad_desv",
+    "comp_electronegatividad_rango",
+    "comp_fila_periodica_media",
+    "comp_fila_periodica_min",
+    "comp_fila_periodica_max",
+    "comp_fila_periodica_desv",
+    "comp_fila_periodica_rango",
+    "comp_grupo_periodico_media",
+    "comp_grupo_periodico_min",
+    "comp_grupo_periodico_max",
+    "comp_grupo_periodico_desv",
+    "comp_grupo_periodico_rango",
+    "comp_radio_atomico_media",
+    "comp_radio_atomico_min",
+    "comp_radio_atomico_max",
+    "comp_radio_atomico_desv",
+    "comp_radio_atomico_rango",
+    "nelements",
+    "nsites",
+    "density",
+    "volume",
+    "volume_per_atom",
+    "atomic_number_density",
+    "space_group_number",
+    "lattice_a",
+    "lattice_b",
+    "lattice_c",
+    "lattice_alpha",
+    "lattice_beta",
+    "lattice_gamma",
+    "crystal_system"
+  ],
+  "columnas_categoricas": [
+    "crystal_system"
+  ],
+  "columnas_descartadas": [],
+  "metadatos_no_predictivos": [
+    "material_id",
+    "formula_pretty",
+    "particion"
+  ],
+  "etiquetas": {
+    "metalica": "is_metal",
+    "magnetica": "is_magnetic"
+  },
+  "archivos": {
+    "metalica": "data\\processed_clasificacion\\dataset_clasificacion_metalica.csv",
+    "magnetica": "data\\processed_clasificacion\\dataset_clasificacion_magnetica.csv"
+  },
+  "particion": "GroupShuffleSplit agrupado por formula_pretty",
+  "semilla": 42,
+  "advertencias": [
+    "No utilizar etiquetas, identificadores ni particion como predictores.",
+    "La estructura original puede proceder de relajaciones DFT; evaluar con estructuras iniciales.",
+    "La etiqueta is_magnetic requiere verificar su definición frente a orden AFM y momentos locales.",
+    "Ajustar imputación y escalado solo sobre entrenamiento, dentro de CV."
+  ]
+}
