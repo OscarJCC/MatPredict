@@ -1,0 +1,92 @@
+{
+  "version": "matpredict_formula_v1",
+  "modalidad": "solo_formula",
+  "descripcion": "Clasificación binaria por 32 descriptores composicionales, sin CIF",
+  "columnas_predictoras": [
+    "comp_num_elementos",
+    "comp_entropia_mezcla",
+    "comp_Z_media",
+    "comp_Z_min",
+    "comp_Z_max",
+    "comp_Z_desv",
+    "comp_Z_rango",
+    "comp_masa_atomica_media",
+    "comp_masa_atomica_min",
+    "comp_masa_atomica_max",
+    "comp_masa_atomica_desv",
+    "comp_masa_atomica_rango",
+    "comp_electronegatividad_media",
+    "comp_electronegatividad_min",
+    "comp_electronegatividad_max",
+    "comp_electronegatividad_desv",
+    "comp_electronegatividad_rango",
+    "comp_fila_periodica_media",
+    "comp_fila_periodica_min",
+    "comp_fila_periodica_max",
+    "comp_fila_periodica_desv",
+    "comp_fila_periodica_rango",
+    "comp_grupo_periodico_media",
+    "comp_grupo_periodico_min",
+    "comp_grupo_periodico_max",
+    "comp_grupo_periodico_desv",
+    "comp_grupo_periodico_rango",
+    "comp_radio_atomico_media",
+    "comp_radio_atomico_min",
+    "comp_radio_atomico_max",
+    "comp_radio_atomico_desv",
+    "comp_radio_atomico_rango"
+  ],
+  "columnas_categoricas": [],
+  "numero_predictores": 32,
+  "fuente_columnas": "Notebook 02, manifest_clasificacion.json; solo prefijo comp_",
+  "particion": "Misma particion GroupShuffleSplit agrupada por formula_pretty de Notebook 02",
+  "cv": "StratifiedGroupKFold 5 folds sobre train",
+  "semilla": 42,
+  "umbral_por_defecto": 0.5,
+  "scores_calibrados": false,
+  "modelos": {
+    "metalica": {
+      "archivo": "modelo_metalica_formula.joblib",
+      "etiqueta": "is_metal",
+      "algoritmo": "Random Forest",
+      "metricas_test": {
+        "tarea": "metalica",
+        "modelo": "Random Forest",
+        "n_test": 6510,
+        "accuracy": 0.9293394777265745,
+        "f1_macro": 0.9293185568693176,
+        "balanced_accuracy": 0.9296094482730498,
+        "precision_positiva": 0.9546623794212219,
+        "recall_positiva": 0.9029805352798054,
+        "roc_auc": 0.975125392488684,
+        "average_precision": 0.9786915796855511,
+        "tipo_score": "predict_proba_no_calibrada"
+      }
+    },
+    "magnetica": {
+      "archivo": "modelo_magnetica_formula.joblib",
+      "etiqueta": "is_magnetic",
+      "algoritmo": "Random Forest",
+      "metricas_test": {
+        "tarea": "magnetica",
+        "modelo": "Random Forest",
+        "n_test": 6510,
+        "accuracy": 0.8838709677419355,
+        "f1_macro": 0.8014736634215478,
+        "balanced_accuracy": 0.8224279191642929,
+        "precision_positiva": 0.6244995996797438,
+        "recall_positiva": 0.7310215557638238,
+        "roc_auc": 0.9260063526216402,
+        "average_precision": 0.7598710221167179,
+        "tipo_score": "predict_proba_no_calibrada"
+      }
+    }
+  },
+  "limitaciones": [
+    "No distingue polimorfos de igual composición.",
+    "No reemplaza validación DFT externa.",
+    "La etiqueta is_magnetic puede no reflejar todos los órdenes magnéticos.",
+    "Los scores no representan confianza calibrada."
+  ],
+  "version_sklearn": "1.9.1"
+}
